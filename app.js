@@ -40,14 +40,18 @@ UI.prototype.showAlert = function(message, className){
     const form = document.querySelector('#book-form');
     //add div before forms 
     container.insertBefore(div, form);
-    console.log(div);
+    
     //disappear after 3 seconds
     setTimeout(function () {
         document.querySelector('.alert').remove();
     }, 3000);
 }
-
-//Event Listener
+UI.prototype.deleteBook = function (target) {
+    if (target.className === 'delete') {
+        target.parentElement.parentElement.remove();
+    }
+}
+//Event Listener for book
 document.getElementById('book-form').addEventListener('submit', function (e) {
     //UI element values
     const title = document.getElementById('title').value;
@@ -71,6 +75,15 @@ document.getElementById('book-form').addEventListener('submit', function (e) {
         //Clear values from form
         ui.clearVal();
     }
-   
+    e.preventDefault();
+})
+//Event Listener for delete
+document.getElementById('book-list').addEventListener('click', function(e){
+    //Instantiate UI
+    const ui = new UI();
+    //delete book
+    ui.deleteBook(e.target);
+    //show Alert message
+    ui.showAlert('Book Removed!', 'success');
     e.preventDefault();
 })
